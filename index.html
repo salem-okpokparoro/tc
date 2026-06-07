@@ -440,6 +440,28 @@
       margin-bottom: 6px;
     }
 
+
+    .discount-list {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0 10px;
+    }
+
+    .discount-item {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, .08);
+      border: 1px solid rgba(56, 189, 248, .16);
+      color: #dbeafe;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .discount-item span {
+      color: var(--green);
+      font-weight: 900;
+    }
+
     .seller-flow {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -489,7 +511,7 @@
 
     .form-grid { display: grid; gap: 14px; }
     .form-grid label { color: #cbd5e1; font-weight: 700; font-size: .9rem; }
-    .form-grid input, .form-grid textarea {
+    .form-grid input, .form-grid textarea, .form-grid select {
       width: 100%;
       margin-top: 7px;
       border: 1px solid rgba(148, 163, 184, .24);
@@ -500,40 +522,7 @@
       font: inherit;
       outline: none;
     }
-    .form-grid input:focus, .form-grid textarea:focus { border-color: var(--blue); }
-
-
-    .discount-options {
-      display: grid;
-      gap: 10px;
-      margin: 16px 0 8px;
-    }
-
-    .discount-option {
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(56, 189, 248, .18);
-      background: rgba(2, 6, 23, .35);
-      color: #dbeafe;
-      font-size: .9rem;
-    }
-
-    .discount-option strong { color: #fff; }
-    .discount-option span { color: var(--green); font-weight: 800; }
-
-    .form-grid select {
-      width: 100%;
-      margin-top: 7px;
-      border: 1px solid rgba(148, 163, 184, .24);
-      background: rgba(15, 23, 42, .92);
-      color: #fff;
-      border-radius: 14px;
-      padding: 13px 14px;
-      font: inherit;
-      outline: none;
-    }
-
-    .form-grid select:focus { border-color: var(--blue); }
+    .form-grid input:focus, .form-grid textarea:focus, .form-grid select:focus { border-color: var(--blue); }
 
     @media (max-width: 1100px) {
       .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -756,7 +745,7 @@
     <section class="container section" id="pricing">
       <div class="section-head">
         <h2>Simple TCync pricing.</h2>
-        <p>Choose a copier license, expand slave capacity, or add a signal channel for your own community.</p>
+        <p>Choose a copier license, expand slave capacity, or add a signal channel for your own community. Save with 6-month and 12-month payment options.</p>
       </div>
       <div class="pricing-grid">
         <div class="card price-card">
@@ -764,16 +753,16 @@
           <h3>Copier Starter</h3>
           <div class="price-tag">£50 <small>/ month</small></div>
           <p style="color:var(--muted)">1 seat with 2 slave accounts.</p>
+          <div class="discount-list">
+            <div class="discount-item">6 months: £270 <span>Save 10%</span></div>
+            <div class="discount-item">12 months: £480 <span>Save 20%</span></div>
+          </div>
           <ul class="price-list">
             <li><i class="fa-solid fa-circle-check"></i><span>1 TCync desktop seat</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Up to 2 slave accounts</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Encrypted credential storage</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Exclusions, MasterCtrl and Skip Ongoing</span></li>
           </ul>
-          <div class="discount-options">
-            <div class="discount-option"><strong>6 months:</strong> £270 total <span>Save 10%</span></div>
-            <div class="discount-option"><strong>12 months:</strong> £480 total <span>Save 20%</span></div>
-          </div>
           <button class="btn btn-primary package-btn" data-package="Copier Starter" data-monthly="£50 per month" data-six="£270 for 6 months" data-year="£480 for 12 months">Select package</button>
         </div>
         <div class="card price-card">
@@ -781,15 +770,15 @@
           <h3>Additional Slave</h3>
           <div class="price-tag">£10 <small>/ slave / month</small></div>
           <p style="color:var(--muted)">Expand beyond the included 2 slaves.</p>
+          <div class="discount-list">
+            <div class="discount-item">6 months: £54 <span>Save 10%</span></div>
+            <div class="discount-item">12 months: £96 <span>Save 20%</span></div>
+          </div>
           <ul class="price-list">
             <li><i class="fa-solid fa-circle-check"></i><span>Add licensed slave capacity</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Good for multi-account setups</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Works with existing TCync seat</span></li>
           </ul>
-          <div class="discount-options">
-            <div class="discount-option"><strong>6 months:</strong> £54 per slave <span>Save 10%</span></div>
-            <div class="discount-option"><strong>12 months:</strong> £96 per slave <span>Save 20%</span></div>
-          </div>
           <button class="btn btn-primary package-btn" data-package="Additional Slave" data-monthly="£10 per additional slave per month" data-six="£54 per additional slave for 6 months" data-year="£96 per additional slave for 12 months">Select package</button>
         </div>
         <div class="card price-card">
@@ -797,16 +786,16 @@
           <h3>Signal Channel</h3>
           <div class="price-tag">£200 <small>/ month</small></div>
           <p style="color:var(--muted)">For signal sellers with up to 100 users.</p>
+          <div class="discount-list">
+            <div class="discount-item">6 months: £1,080 <span>Save 10%</span></div>
+            <div class="discount-item">12 months: £1,920 <span>Save 20%</span></div>
+          </div>
           <ul class="price-list">
             <li><i class="fa-solid fa-circle-check"></i><span>Add your channel to TCync</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Up to 100 follower users</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Channel key and expiry validation</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Followers access signals directly from the copier</span></li>
           </ul>
-          <div class="discount-options">
-            <div class="discount-option"><strong>6 months:</strong> £1,080 total <span>Save 10%</span></div>
-            <div class="discount-option"><strong>12 months:</strong> £1,920 total <span>Save 20%</span></div>
-          </div>
           <button class="btn btn-primary package-btn" data-package="Signal Channel" data-monthly="£200 per month for up to 100 users" data-six="£1,080 for 6 months for up to 100 users" data-year="£1,920 for 12 months for up to 100 users">Select package</button>
         </div>
         <div class="card price-card featured">
@@ -814,16 +803,16 @@
           <h3>Copier + SigmaRR</h3>
           <div class="price-tag">£55 <small>/ month</small><span class="strike">£100</span></div>
           <p style="color:var(--muted)">Promo bundle for TCync copier access plus SigmaRR signal group.</p>
+          <div class="discount-list">
+            <div class="discount-item">6 months: £297 <span>Save 10%</span></div>
+            <div class="discount-item">12 months: £528 <span>Save 20%</span></div>
+          </div>
           <ul class="price-list">
             <li><i class="fa-solid fa-circle-check"></i><span>TCync copier access</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>SigmaRR signal group access</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Signal channel validation inside TCync</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Promo price while available</span></li>
           </ul>
-          <div class="discount-options">
-            <div class="discount-option"><strong>6 months:</strong> £297 total <span>Save 10%</span></div>
-            <div class="discount-option"><strong>12 months:</strong> £528 total <span>Save 20%</span></div>
-          </div>
           <button class="btn btn-primary package-btn" data-package="Copier + SigmaRR promo" data-monthly="£55 per month limited-time offer instead of £100" data-six="£297 for 6 months limited-time offer" data-year="£528 for 12 months limited-time offer">Select package</button>
         </div>
       </div>
@@ -834,33 +823,32 @@
 
     <section class="container section" id="download">
       <div class="download-panel">
-        <div class="kicker"><i class="fa-solid fa-download"></i> Latest TCync release</div>
-        <h2>Download TCync.</h2>
+        <div class="kicker"><i class="fa-solid fa-download"></i> TCync Application</div>
+        <h2>Download the latest TCync release.</h2>
         <p>
-          Download the latest Windows release. After installation, request the package you need from the pricing section and use your license key inside the app.
+          Download TCync for Windows, install the application, then request or activate your license to start configuring your copier.
         </p>
         <div class="cta-group" style="justify-content:center">
-          <a class="btn btn-primary" href="https://github.com/salem-okpokparoro/tc/releases/latest/download/TCync_Setup.exe" target="_blank" rel="noopener">
-            <i class="fa-solid fa-download"></i> Download TCync
-          </a>
-          <a class="btn btn-secondary" href="mailto:support@tcync.com">
-            <i class="fa-solid fa-headset"></i> Need help? support@tcync.com
-          </a>
+			<a class="btn btn-primary" href="/download/">
+				<i class="fa-solid fa-download"></i>
+				Download TCync
+			</a>
         </div>
-        <div class="code">https://github.com/salem-okpokparoro/tc/releases/latest/download/TCync_Setup.exe</div>
+        <div class="note">
+          <strong>Before running:</strong> make sure MetaTrader 5 is installed and algorithmic trading is enabled in each MT5 terminal you want TCync to use.
+        </div>
       </div>
     </section>
 
     <section class="container section" id="support">
       <div class="section-head">
         <h2>Support</h2>
-        <p>Need help with licensing, setup, activation, signal channels, downloads or copier configuration?</p>
+        <p>Need help with licensing, activation, signal channels, setup or copier configuration?</p>
       </div>
       <div class="card" style="text-align:center; max-width:760px; margin:0 auto;">
         <div class="icon" style="margin:0 auto 16px;"><i class="fa-solid fa-headset"></i></div>
         <h3>Contact TCync Support</h3>
-        <p style="margin-top:12px;">Email <a href="mailto:support@tcync.com" style="color:var(--blue);font-weight:800;">support@tcync.com</a></p>
-        <p style="margin-top:12px;color:var(--muted);">For faster help, include your TCyncID, license key if available, screenshots, error messages and saved output logs.</p>
+        <p style="margin-top:12px; color:var(--muted);">Email <a href="mailto:support@tcync.com" style="color:var(--blue); font-weight:800;">support@tcync.com</a> with your TCyncID, license key if available, screenshots and any relevant output logs.</p>
       </div>
     </section>
 
@@ -892,18 +880,18 @@
       <form class="form-grid" id="packageForm">
         <input type="hidden" id="selectedPackage">
         <input type="hidden" id="selectedCost">
-        <label>Billing option
-          <select id="billingTerm" required>
-            <option value="Monthly">Monthly</option>
-            <option value="6 Months">6 Months</option>
-            <option value="12 Months">12 Months</option>
-          </select>
-        </label>
         <label>Name
           <input id="customerName" type="text" autocomplete="name" required placeholder="Your name">
         </label>
         <label>Email
           <input id="customerEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+        </label>
+        <label>Billing option
+          <select id="billingTerm" required>
+            <option value="Monthly">Monthly</option>
+            <option value="6 Months (10% Discount)">6 Months (10% Discount)</option>
+            <option value="12 Months (20% Discount)">12 Months (20% Discount)</option>
+          </select>
         </label>
         <label>Message / requirements optional
           <textarea id="customerMessage" rows="4" placeholder="Tell me how many slaves, whether you need a signal channel, or any setup details."></textarea>
@@ -923,9 +911,7 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx5uwDMNK-RP2diDgDyAKfqo8TTqKS85_5S7g0SJ7xlr48gPcWX47DLHep3AvLJY6u8/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyO68hbpCfdLgcL104nFDOWFj1iiL0EzCPcbap7QgL3ilIeGD-IhmriChk3EgAjnSyK/exec";
 
     const modal = document.getElementById("packageModal");
     const modalClose = document.getElementById("modalClose");
@@ -937,16 +923,10 @@
     document.querySelectorAll(".package-btn").forEach((button) => {
       button.addEventListener("click", () => {
         const packageName = button.dataset.package;
-        const monthly = button.dataset.monthly;
-        const six = button.dataset.six;
-        const year = button.dataset.year;
+        const cost = button.dataset.monthly || button.dataset.cost || "";
         selectedPackage.value = packageName;
-        selectedCost.value = monthly;
-        document.getElementById("billingTerm").value = "Monthly";
-        document.getElementById("billingTerm").dataset.monthly = monthly;
-        document.getElementById("billingTerm").dataset.six = six;
-        document.getElementById("billingTerm").dataset.year = year;
-        modalText.textContent = `${packageName} — ${monthly}`;
+        selectedCost.value = cost;
+        modalText.textContent = `${packageName} — ${cost}`;
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
         document.getElementById("customerName").focus();
@@ -962,13 +942,16 @@
     modal.addEventListener("click", (event) => {
       if (event.target === modal) closeModal();
     });
-    document.getElementById("billingTerm").addEventListener("change", (event) => {
-      const term = event.target.value;
-      const cost = term === "6 Months" ? event.target.dataset.six : term === "12 Months" ? event.target.dataset.year : event.target.dataset.monthly;
-      selectedCost.value = cost;
-      modalText.textContent = `${selectedPackage.value} — ${cost}`;
-    });
 
+
+    function getSelectedPackageCost() {
+      const term = document.getElementById("billingTerm").value;
+      const activeButton = Array.from(document.querySelectorAll(".package-btn")).find((button) => button.dataset.package === selectedPackage.value);
+      if (!activeButton) return selectedCost.value;
+      if (term.startsWith("6 Months")) return activeButton.dataset.six || selectedCost.value;
+      if (term.startsWith("12 Months")) return activeButton.dataset.year || selectedCost.value;
+      return activeButton.dataset.monthly || selectedCost.value;
+    }
 
     packageForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -981,8 +964,8 @@
         name: document.getElementById("customerName").value.trim(),
         email: document.getElementById("customerEmail").value.trim(),
         package: selectedPackage.value,
+        cost: getSelectedPackageCost(),
         billing_term: document.getElementById("billingTerm").value,
-        cost: selectedCost.value,
         message: document.getElementById("customerMessage").value.trim(),
         page: window.location.href,
         submitted_at: new Date().toISOString()
