@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TCync | Lightning Fast MT5 Trade Copier</title>
+  <meta name="description" content="TCync is a lightning-fast MT5 trade copier with encrypted credential storage, licensed signal channels, exclusions, MasterCtrl, Skip Ongoing, and protected local sessions." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #050914;
+      --bg2: #07111f;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel2: rgba(30, 41, 59, 0.55);
+      --border: rgba(56, 189, 248, 0.18);
+      --border2: rgba(148, 163, 184, 0.18);
+      --text: #f8fafc;
+      --muted: #9fb0c8;
+      --blue: #38bdf8;
+      --blue2: #2563eb;
+      --green: #84cc16;
+      --yellow: #facc15;
+      --red: #fb7185;
+      --shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(56,189,248,.18), transparent 28%),
+        radial-gradient(circle at 78% 12%, rgba(250,204,21,.12), transparent 25%),
+        radial-gradient(circle at 50% 85%, rgba(37,99,235,.18), transparent 35%),
+        linear-gradient(180deg, #020617 0%, var(--bg) 42%, #020617 100%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(2, 6, 23, 0.72);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .navbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      font-size: 1.65rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(56,189,248,.35), rgba(250,204,21,.2)),
+        #0f172a;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(56,189,248,.35);
+      box-shadow: 0 0 30px rgba(56, 189, 248, .15);
+      color: var(--yellow);
+    }
+
+    .brand span {
+      background: linear-gradient(120deg, #ffffff, var(--blue) 50%, var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+      color: #cbd5e1;
+      font-size: .95rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 13px 20px;
+      font-weight: 800;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(100deg, var(--blue2), var(--blue));
+      color: white;
+      box-shadow: 0 18px 36px -18px rgba(56, 189, 248, .9);
+    }
+    .btn-primary:hover { box-shadow: 0 22px 42px -18px rgba(56, 189, 248, 1); }
+    .btn-secondary {
+      background: rgba(15, 23, 42, .66);
+      border-color: rgba(148, 163, 184, .25);
+      color: #e2e8f0;
+    }
+    .btn-secondary:hover { border-color: var(--blue); background: rgba(30, 41, 59, .82); }
+
+    .hero {
+      padding: 82px 0 52px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 54px;
+      align-items: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, .09);
+      border: 1px solid rgba(56, 189, 248, .22);
+      color: #bae6fd;
+      font-weight: 800;
+      font-size: .84rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.55rem, 5vw, 5.2rem);
+      line-height: .98;
+      letter-spacing: -0.07em;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(125deg, #ffffff 0%, #bae6fd 42%, #fef08a 72%, #84cc16 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 30px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 26px;
+      color: #cbd5e1;
+      font-size: .92rem;
+      font-weight: 700;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(15, 23, 42, .55);
+      border-radius: 999px;
+    }
+
+    .hero-card {
+      position: relative;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(15,23,42,.76), rgba(2,6,23,.88));
+      border-radius: 30px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(circle at 80% 20%, rgba(250,204,21,.28), transparent 30%),
+                  radial-gradient(circle at 20% 20%, rgba(56,189,248,.22), transparent 34%);
+      pointer-events: none;
+    }
+
+    .logo-preview {
+      position: relative;
+      min-height: 300px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(90deg, rgba(56,189,248,.08), transparent 48%, rgba(250,204,21,.09)),
+        rgba(2,6,23,.62);
+      border: 1px solid rgba(148, 163, 184, .14);
+      overflow: hidden;
+    }
+
+    .logo-preview img {
+      width: min(92%, 560px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 20px 34px rgba(0,0,0,.45));
+    }
+
+    .fallback-logo {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--blue);
+    }
+
+    .terminal {
+      position: relative;
+      margin-top: 16px;
+      padding: 18px;
+      background: #020617;
+      border: 1px solid rgba(34,197,94,.25);
+      border-radius: 18px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #d1fae5;
+      font-size: .86rem;
+    }
+    .terminal div + div { margin-top: 8px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; background: #22c55e; margin-right: 8px; box-shadow: 0 0 14px #22c55e; }
+
+    .section { padding: 72px 0; }
+    .section-head { text-align: center; max-width: 780px; margin: 0 auto 36px; }
+    .section h2 {
+      font-size: clamp(2rem, 3.4vw, 3.2rem);
+      letter-spacing: -0.05em;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+    .section-head p { color: var(--muted); font-size: 1.05rem; }
+
+    .grid { display: grid; gap: 20px; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    }
+
+    .card:hover { border-color: rgba(56,189,248,.38); }
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: var(--blue);
+      background: rgba(56, 189, 248, .10);
+      border: 1px solid rgba(56, 189, 248, .20);
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+    .card h3 { font-size: 1.2rem; margin-bottom: 8px; letter-spacing: -0.025em; }
+    .card p { color: var(--muted); font-size: .98rem; }
+
+    .security-band {
+      background:
+        linear-gradient(135deg, rgba(56,189,248,.10), rgba(250,204,21,.06)),
+        rgba(15, 23, 42, .72);
+      border: 1px solid rgba(56, 189, 248, .22);
+      border-radius: 30px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .security-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .secure-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: #dbeafe;
+      padding: 13px;
+      border-radius: 16px;
+      background: rgba(2, 6, 23, .34);
+      border: 1px solid rgba(148, 163, 184, .12);
+    }
+    .secure-item i { color: var(--green); margin-top: 4px; }
+
+    .steps { counter-reset: step; }
+    .step { position: relative; }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 14px;
+      box-shadow: 0 12px 22px rgba(56,189,248,.22);
+    }
+
+    .download-panel {
+      text-align: center;
+      border-radius: 32px;
+      padding: 42px 26px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(56,189,248,.18), transparent 28%),
+        radial-gradient(circle at 88% 30%, rgba(250,204,21,.12), transparent 25%),
+        linear-gradient(180deg, rgba(15,23,42,.86), rgba(2,6,23,.88));
+      border: 1px solid rgba(56, 189, 248, .24);
+      box-shadow: var(--shadow);
+    }
+
+    .download-panel p { color: var(--muted); margin: 12px auto 24px; max-width: 780px; }
+    .code {
+      display: inline-block;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: rgba(2, 6, 23, .75);
+      color: #bae6fd;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      border: 1px solid rgba(148,163,184,.16);
+      margin-top: 14px;
+      word-break: break-all;
+    }
+
+    .note {
+      border-left: 4px solid var(--yellow);
+      background: rgba(250,204,21,.08);
+      border-radius: 16px;
+      padding: 18px;
+      color: #fde68a;
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    .risk {
+      font-size: .86rem;
+      color: #94a3b8;
+      background: rgba(2,6,23,.72);
+      border: 1px solid rgba(148,163,184,.16);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .price-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .price-card.featured {
+      border-color: rgba(34, 211, 238, .55);
+      box-shadow: 0 24px 80px rgba(14, 165, 233, .14);
+    }
+
+    .price-tag {
+      font-size: 2.35rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin: 16px 0 6px;
+    }
+
+    .price-tag small {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .strike { color: #94a3b8; text-decoration: line-through; font-size: 1.15rem; margin-left: 8px; }
+
+    .price-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 24px;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .price-list li { display: flex; gap: 10px; align-items: flex-start; }
+    .price-list i { color: var(--green); margin-top: 4px; }
+
+    .ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #0b1120;
+      background: linear-gradient(135deg, var(--yellow), #f97316);
+      font-weight: 800;
+      font-size: .78rem;
+      margin-bottom: 6px;
+    }
+
+    .seller-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, .78);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      width: min(560px, 100%);
+      background: linear-gradient(180deg, #111827, #0b1120);
+      border: 1px solid rgba(56, 189, 248, .28);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .modal-close {
+      border: 1px solid rgba(148, 163, 184, .25);
+      background: transparent;
+      color: #fff;
+      border-radius: 12px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .form-grid { display: grid; gap: 14px; }
+    .form-grid label { color: #cbd5e1; font-weight: 700; font-size: .9rem; }
+    .form-grid input, .form-grid textarea {
+      width: 100%;
+      margin-top: 7px;
+      border: 1px solid rgba(148, 163, 184, .24);
+      background: rgba(15, 23, 42, .92);
+      color: #fff;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+    }
+    .form-grid input:focus, .form-grid textarea:focus { border-color: var(--blue); }
+
+    @media (max-width: 1100px) {
+      .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .seller-flow { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 650px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    footer {
+      border-top: 1px solid rgba(148, 163, 184, .12);
+      padding: 34px 0;
+      color: #94a3b8;
+    }
+
+    footer .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    @media (max-width: 950px) {
+      .hero, .security-band, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero { padding-top: 52px; }
+      .logo-preview { min-height: 220px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav-wrap">
+    <nav class="container navbar">
+      <a class="brand" href="#top" aria-label="TCync home">
+        <span class="brand-mark"><i class="fa-solid fa-bolt"></i></span>
+        <span>TCync</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#signal-sellers">Signal Sellers</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#download" class="btn btn-secondary">Download</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main id="top">
+    <section class="container hero">
+      <div>
+        <div class="kicker"><i class="fa-solid fa-bolt-lightning"></i> Lightning-fast MT5 trade copying</div>
+        <h1><span class="gradient-text">Copy master trades</span><br>with speed, control and protection.</h1>
+        <p>
+          TCync is a desktop trade copier for MetaTrader 5 that mirrors master-account trades to licensed slave accounts, with encrypted credential storage, symbol exclusions, signal-channel licensing, MasterCtrl close control, and Skip Ongoing protection.
+        </p>
+        <div class="cta-group">
+          <a href="#pricing" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i> Choose package</a>
+          <a href="#download" class="btn btn-secondary"><i class="fa-solid fa-download"></i> Download TCync</a>
+        </div>
+        <div class="trust-row">
+          <span class="pill"><i class="fa-solid fa-lock" style="color:var(--green)"></i> Encrypted trading credentials</span>
+          <span class="pill"><i class="fa-solid fa-gauge-high" style="color:var(--yellow)"></i> Low-latency local execution</span>
+          <span class="pill"><i class="fa-solid fa-desktop" style="color:var(--blue)"></i> Windows + MT5</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="logo-preview">
+          <img src="tcync_logo.png" alt="TCync Trade Copier logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;fallback-logo&quot;>TCync</div>';">
+        </div>
+        <div class="terminal">
+          <div><span class="dot"></span><strong>TCync active</strong> — monitoring master account</div>
+          <div>Encrypted accounts loaded from tcync_session.</div>
+          <div>[SYMBOL MAP] XAUUSD → XAUUSDm</div>
+          <div>Trade copied to slave account · MasterCtrl ready</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="features">
+      <div class="section-head">
+        <h2>Built around the way your copier actually works.</h2>
+        <p>TCync focuses on practical copy-trading controls: clean account management, protected sessions, signal validation, and clear logs.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Fast local copying</h3>
+          <p>Runs locally with MetaTrader 5, detecting master trades and sending matching orders to configured slave accounts.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-copy"></i></div>
+          <h3>Slave Volume mode</h3>
+          <p>Use each slave account’s saved lot size, or copy the master trade volume when you prefer direct mirroring.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-sliders"></i></div>
+          <h3>Copy SL/TP</h3>
+          <p>Choose whether Stop Loss and Take Profit are copied from the master trade to slave trades where supported.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-ban"></i></div>
+          <h3>Symbol exclusions</h3>
+          <p>Exclude symbols such as US30, NAS100, BTCUSD or XAU with comma, slash, semicolon, or Python-list input.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-link"></i></div>
+          <h3>MasterCtrl</h3>
+          <p>When enabled, slave trades close when the matching master trade closes. Turn it off when you want manual control.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-forward-fast"></i></div>
+          <h3>Skip Ongoing</h3>
+          <p>Start clean by skipping trades that were already open before Run was clicked, using the same style of skip logic as exclusions.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-satellite-dish"></i></div>
+          <h3>Signal channels</h3>
+          <p>License-controlled channels can validate a channel password, expiry date and decrypted main credential before use.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-file-lines"></i></div>
+          <h3>Session logs</h3>
+          <p>Save output logs to timestamped files under tcync_session/outputs, then clear the screen automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="security">
+      <div class="security-band">
+        <div>
+          <div class="kicker"><i class="fa-solid fa-lock"></i> End-to-end credential protection</div>
+          <h2>Trading credentials are encrypted and kept local.</h2>
+          <p style="color:var(--muted); margin-top:12px;">
+            TCync is designed so saved account details are written into encrypted local session storage and decrypted only by the desktop app when it needs to connect to MT5. Sensitive values are not printed into the output log.
+          </p>
+          <div class="note">
+            <strong>Privacy note:</strong> Keep your license key, Windows account, machine and local session folder secure. Encryption protects stored files, but users are still responsible for device security.
+          </div>
+        </div>
+        <div class="security-list">
+          <div class="secure-item"><i class="fa-solid fa-circle-check"></i><div><strong>Encrypted account file</strong><br><span style="color:var(--muted)">Trading credentials are saved through the same protected local encryption layer used for license storage.</span></div></div>
+          <div class="secure-item"><i class="fa-solid fa-circle-check"></i><div><strong>Local-only session folder</strong><br><span style="color:var(--muted)">Accounts, license cache, exclusions, preferences and outputs are grouped under tcync_session.</span></div></div>
+          <div class="secure-item"><i class="fa-solid fa-circle-check"></i><div><strong>Signal-channel validation</strong><br><span style="color:var(--muted)">Licensed channels can check password keys and expiry before decrypting the protected main credential.</span></div></div>
+          <div class="secure-item"><i class="fa-solid fa-circle-check"></i><div><strong>Terms acceptance</strong><br><span style="color:var(--muted)">A scroll-to-accept risk and software disclaimer is shown after license activation.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="how">
+      <div class="section-head">
+        <h2>From install to copying in minutes.</h2>
+        <p>Designed for a clear desktop workflow: activate, save accounts, set controls, enable MT5 algo trading, then run.</p>
+      </div>
+
+      <div class="grid grid-3 steps">
+        <div class="card step">
+          <h3>Activate license</h3>
+          <p>Enter your license key, accept terms, and view your TCyncID directly from the app when support needs it.</p>
+        </div>
+        <div class="card step">
+          <h3>Save main and slaves</h3>
+          <p>Add the master account and licensed slave accounts. The app enforces the maximum slave count allowed by the license.</p>
+        </div>
+        <div class="card step">
+          <h3>Enable MT5 algo trading</h3>
+          <p>In MT5, go to Tools → Options → Expert Advisors and tick Allow algorithmic trading for each terminal.</p>
+        </div>
+        <div class="card step">
+          <h3>Pick controls</h3>
+          <p>Set Slave Volume, Copy SL/TP, MasterCtrl, Skip Ongoing, exclusions and optional Signal Channel.</p>
+        </div>
+        <div class="card step">
+          <h3>Click Run</h3>
+          <p>TCync initializes accounts, maps symbols between brokers and starts watching the master account for new trades.</p>
+        </div>
+        <div class="card step">
+          <h3>Review logs</h3>
+          <p>See account connection status, mapping, skipped exclusions, copied trades, close events and errors in the output window.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="container section" id="signal-sellers">
+      <div class="section-head">
+        <h2>Built for signal sellers and their followers.</h2>
+        <p>Any approved signal seller can add a licensed signal channel, while followers select that channel directly inside the TCync copier.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+          <h3>Signal sellers can onboard a channel</h3>
+          <p>Create a licensed signal channel for your community, assign protected channel access keys, and let up to 100 users connect through TCync without manually sharing your main account credential.</p>
+          <ul class="price-list" style="margin-bottom:0">
+            <li><i class="fa-solid fa-circle-check"></i><span>Channel access controlled by license data</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Encrypted channel credentials can be validated before use</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Followers pick the seller channel inside the copier dropdown</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+          <h3>Followers access signals from the copier</h3>
+          <p>Followers choose the signal channel in TCync, enter their assigned channel password, and the app validates the key and expiry before enabling that signal route.</p>
+          <div class="seller-flow">
+            <div class="note"><strong>1.</strong> Seller creates channel</div>
+            <div class="note"><strong>2.</strong> Follower selects channel</div>
+            <div class="note"><strong>3.</strong> TCync validates access</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="pricing">
+      <div class="section-head">
+        <h2>Simple TCync pricing.</h2>
+        <p>Choose a copier license, expand slave capacity, or add a signal channel for your own community.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="card price-card">
+          <div class="icon"><i class="fa-solid fa-computer"></i></div>
+          <h3>Copier Starter</h3>
+          <div class="price-tag">£50 <small>/ month</small></div>
+          <p style="color:var(--muted)">1 seat with 2 slave accounts.</p>
+          <ul class="price-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>1 TCync desktop seat</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Up to 2 slave accounts</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Encrypted credential storage</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Exclusions, MasterCtrl and Skip Ongoing</span></li>
+          </ul>
+          <button class="btn btn-primary package-btn" data-package="Copier Starter" data-cost="£50 per month">Select package</button>
+        </div>
+        <div class="card price-card">
+          <div class="icon"><i class="fa-solid fa-user-plus"></i></div>
+          <h3>Additional Slave</h3>
+          <div class="price-tag">£10 <small>/ slave / month</small></div>
+          <p style="color:var(--muted)">Expand beyond the included 2 slaves.</p>
+          <ul class="price-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>Add licensed slave capacity</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Good for multi-account setups</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Works with existing TCync seat</span></li>
+          </ul>
+          <button class="btn btn-primary package-btn" data-package="Additional Slave" data-cost="£10 per additional slave per month">Select package</button>
+        </div>
+        <div class="card price-card">
+          <div class="icon"><i class="fa-solid fa-satellite-dish"></i></div>
+          <h3>Signal Channel</h3>
+          <div class="price-tag">£200 <small>/ month</small></div>
+          <p style="color:var(--muted)">For signal sellers with up to 100 users.</p>
+          <ul class="price-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>Add your channel to TCync</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Up to 100 follower users</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Channel key and expiry validation</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Followers access signals directly from the copier</span></li>
+          </ul>
+          <button class="btn btn-primary package-btn" data-package="Signal Channel" data-cost="£200 per month for up to 100 users">Select package</button>
+        </div>
+        <div class="card price-card featured">
+          <div class="ribbon"><i class="fa-solid fa-bolt"></i> Limited time offer</div>
+          <h3>Copier + SigmaRR</h3>
+          <div class="price-tag">£55 <small>/ month</small><span class="strike">£100</span></div>
+          <p style="color:var(--muted)">Promo bundle for TCync copier access plus SigmaRR signal group.</p>
+          <ul class="price-list">
+            <li><i class="fa-solid fa-circle-check"></i><span>TCync copier access</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>SigmaRR signal group access</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Signal channel validation inside TCync</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Promo price while available</span></li>
+          </ul>
+          <button class="btn btn-primary package-btn" data-package="Copier + SigmaRR promo" data-cost="£55 per month limited-time offer instead of £100">Select package</button>
+        </div>
+      </div>
+      <div class="note" style="margin-top:22px">
+        Prices are listed for license enquiry purposes. Final activation, payment terms and availability are confirmed manually after your request.
+      </div>
+    </section>
+
+    <section class="container section" id="download">
+      <div class="download-panel">
+        <div class="kicker"><i class="fa-brands fa-github"></i> GitHub-hosted download</div>
+        <h2>Download the latest TCync release.</h2>
+        <p>
+          Host the TCync installer or ZIP package on GitHub Releases, then point this button to the latest release URL. Users can download the app first, then request a license from the pricing section.
+        </p>
+        <div class="cta-group" style="justify-content:center">
+          <a class="btn btn-primary" href="https://github.com/YOUR_USERNAME/TCync/releases/latest" target="_blank" rel="noopener">
+            <i class="fa-solid fa-download"></i> Download latest release
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/YOUR_USERNAME/TCync" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github"></i> View GitHub page
+          </a>
+        </div>
+        <div class="code">https://github.com/YOUR_USERNAME/TCync/releases/latest</div>
+        <div class="note">
+          <strong>Suggested GitHub setup:</strong> create a private or public repository named <code>TCync</code>, upload each packaged build under <strong>Releases</strong>, then replace <code>YOUR_USERNAME</code> in this page.
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-circle-info"></i></div>
+          <h3>What users need before running</h3>
+          <p>Windows, MetaTrader 5 terminals, valid account credentials, algorithmic trading enabled in MT5, and a valid TCync license.</p>
+        </div>
+        <div class="risk">
+          <strong>Risk disclosure:</strong> Trading financial instruments involves risk and can result in loss of capital. TCync is software for trade copying and signal execution support only. It is not financial advice, investment advice, a brokerage service, or a guarantee of performance. Users are responsible for configuration, monitoring, broker behaviour, risk management and all trading outcomes.
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <div class="modal-overlay" id="packageModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <div class="kicker"><i class="fa-solid fa-envelope"></i> License enquiry</div>
+          <h2 id="modalTitle" style="margin-top:6px">Request TCync package</h2>
+          <p id="modalPackageText" style="color:var(--muted); margin-top:6px"></p>
+        </div>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Close">✕</button>
+      </div>
+      <form class="form-grid" id="packageForm">
+        <input type="hidden" id="selectedPackage">
+        <input type="hidden" id="selectedCost">
+        <label>Name
+          <input id="customerName" type="text" autocomplete="name" required placeholder="Your name">
+        </label>
+        <label>Email
+          <input id="customerEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+        </label>
+        <label>Message / requirements optional
+          <textarea id="customerMessage" rows="4" placeholder="Tell me how many slaves, whether you need a signal channel, or any setup details."></textarea>
+        </label>
+        <button class="btn btn-primary" type="submit" style="justify-content:center"><i class="fa-solid fa-paper-plane"></i> Send enquiry</button>
+        <p style="color:var(--muted); font-size:.86rem">Your enquiry will be sent directly. You will see a confirmation message after submission.</p>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container row">
+      <div>© <span id="year"></span> TCync Trade Copier. Built for controlled MT5 trade copying.</div>
+      <div style="display:flex; gap:16px;">
+        <a href="#download"><i class="fa-solid fa-download"></i></a>
+        <a href="https://github.com/YOUR_USERNAME/TCync" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+        <a href="#"><i class="fa-brands fa-telegram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Replace this with your deployed Google Apps Script Web App URL.
+    // Deploy the script as: Execute as Me, Who has access: Anyone.
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyO68hbpCfdLgcL104nFDOWFj1iiL0EzCPcbap7QgL3ilIeGD-IhmriChk3EgAjnSyK/exec";
+
+    const modal = document.getElementById("packageModal");
+    const modalClose = document.getElementById("modalClose");
+    const modalText = document.getElementById("modalPackageText");
+    const selectedPackage = document.getElementById("selectedPackage");
+    const selectedCost = document.getElementById("selectedCost");
+    const packageForm = document.getElementById("packageForm");
+
+    document.querySelectorAll(".package-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const packageName = button.dataset.package;
+        const cost = button.dataset.cost;
+        selectedPackage.value = packageName;
+        selectedCost.value = cost;
+        modalText.textContent = `${packageName} — ${cost}`;
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.getElementById("customerName").focus();
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    packageForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const submitButton = packageForm.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.innerHTML;
+
+      const payload = {
+        type: "tcync_package_enquiry",
+        name: document.getElementById("customerName").value.trim(),
+        email: document.getElementById("customerEmail").value.trim(),
+        package: selectedPackage.value,
+        cost: selectedCost.value,
+        message: document.getElementById("customerMessage").value.trim(),
+        page: window.location.href,
+        submitted_at: new Date().toISOString()
+      };
+
+      if (!payload.name || !payload.email || !payload.package) {
+        alert("Please enter your name and email.");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        closeModal();
+        packageForm.reset();
+        alert("Thank you, we'll contact you shortly.");
+      } catch (error) {
+        alert("Sorry, the enquiry could not be sent. Please try again or contact salem.oke@gmail.com directly.");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonText;
+      }
+    });
+  </script>
+</body>
+</html>
