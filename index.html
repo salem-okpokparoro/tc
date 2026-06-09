@@ -873,6 +873,16 @@
         <button class="modal-close" id="modalClose" type="button" aria-label="Close">✕</button>
       </div>
       <form class="form-grid" id="packageForm">
+
+        <input
+          type="text"
+          id="website"
+          name="website"
+          autocomplete="off"
+          tabindex="-1"
+          style="display:none"
+        >
+
         <input type="hidden" id="selectedPackage">
         <input type="hidden" id="selectedCost">
         <label>Name
@@ -955,6 +965,8 @@
       const originalButtonText = submitButton.innerHTML;
 
       const payload = {
+        secret: "cedar91-whisper-engine-river-falcon-orbit-6428",
+
         type: "tcync_package_enquiry",
         name: document.getElementById("customerName").value.trim(),
         email: document.getElementById("customerEmail").value.trim(),
@@ -962,6 +974,9 @@
         cost: getSelectedPackageCost(),
         billing_term: document.getElementById("billingTerm").value,
         message: document.getElementById("customerMessage").value.trim(),
+
+        website: document.getElementById("website").value,
+
         page: window.location.href,
         submitted_at: new Date().toISOString()
       };
