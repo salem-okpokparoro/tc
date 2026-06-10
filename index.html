@@ -916,7 +916,7 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyO68hbpCfdLgcL104nFDOWFj1iiL0EzCPcbap7QgL3ilIeGD-IhmriChk3EgAjnSyK/exec";
+    const candle = "https://script.google.com/macros/s/AKfycbyO68hbpCfdLgcL104nFDOWFj1iiL0EzCPcbap7QgL3ilIeGD-IhmriChk3EgAjnSyK/exec";
 
     const modal = document.getElementById("packageModal");
     const modalClose = document.getElementById("modalClose");
@@ -990,7 +990,7 @@
       submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
       try {
-        await fetch(GOOGLE_SCRIPT_URL, {
+        await fetch(candle, {
           method: "POST",
           mode: "no-cors",
           headers: {
