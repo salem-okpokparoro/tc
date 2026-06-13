@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TCync | Secure Trade Copier & Signal Hosting</title>
-  <meta name="description" content="TCync is a secure, low-latency trade copier and signal-hosting platform built with your privacy and safety in mind. It allows you to host your own signal channel completely free of charge, and ensures every session remains securely stored on your local device." />
+  <meta name="description" content="TCync is a secure, low-latency (<0.5s) trade copier and signal-hosting platform built with your privacy and safety in mind. It allows you to host your own signal channel completely free of charge, and ensures every session remains securely stored on your local device." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -570,6 +570,7 @@
         <li><a href="#signal-sellers">Signal Sellers</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#support">Support</a></li>
+        <li><a class="btn btn-primary" href="https://apps.microsoft.com/detail/9pfl4xv4vpzr?hl=en-GB&gl=GB" target="_blank" rel="noopener"><i class="fa-brands fa-windows"></i> Download</a></li>
         <li><button class="btn btn-secondary package-btn" data-package="Free Trial" data-monthly="Free trial request" data-six="Free trial request" data-year="Free trial request" type="button">Free Trial</button></li>
       </ul>
     </nav>
@@ -584,12 +585,13 @@
           <strong>TCync</strong> — <strong>Trade Copy & Synchronize</strong> — is a secure, purpose-built trade copier and signal-hosting platform for traders and signal providers, combining multi-account trade copying, end-to-end encryption for signal hosting, easy selection of available signal channels and advanced trade management capabilities into one powerful desktop application.
         </p>
         <div class="cta-group">
-          <a href="#pricing" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i> Choose package</a>
+          <a href="https://apps.microsoft.com/detail/9pfl4xv4vpzr?hl=en-GB&gl=GB" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-brands fa-windows"></i> Download for Windows</a>
+          <a href="#pricing" class="btn btn-secondary"><i class="fa-solid fa-cart-shopping"></i> Choose package</a>
           <button class="btn btn-secondary package-btn" data-package="Free Trial" data-monthly="Free trial request" data-six="Free trial request" data-year="Free trial request" type="button"><i class="fa-solid fa-paper-plane"></i> Get Free Trial</button>
         </div>
         <div class="trust-row">
           <span class="pill"><i class="fa-solid fa-lock" style="color:var(--green)"></i> End-to-end encrypted signal hosting</span>
-          <span class="pill"><i class="fa-solid fa-gauge-high" style="color:var(--yellow)"></i> Low-latency local execution</span>
+          <span class="pill"><i class="fa-solid fa-gauge-high" style="color:var(--yellow)"></i> Low-latency (<0.5s) local execution</span>
           <span class="pill"><i class="fa-solid fa-desktop" style="color:var(--blue)"></i> Windows + MT5</span>
         </div>
       </div>
@@ -660,8 +662,8 @@
     <section class="container section" id="security">
       <div class="security-band">
         <div>
-          <div class="kicker"><i class="fa-solid fa-lock"></i> End-to-end encryption enabled</div>
-          <h2>Trading credentials are end-to-end encrypted and kept under your control.</h2>
+          <div class="kicker"><i class="fa-solid fa-lock"></i> Encryption enabled</div>
+          <h2>Trading credentials are encrypted on local machine. End-to-end encryption enbaled for signal providers.</h2>
           <p style="color:var(--muted); margin-top:12px;">
             TCync is designed so saved trading credentials are protected through encrypted local session storage and only decrypted by the desktop app when connecting to MT5. Sensitive values are not printed into output logs, and signal-channel credentials are validated before use.
           </p>
@@ -745,25 +747,26 @@
     <section class="container section" id="pricing">
       <div class="section-head">
         <h2>Simple TCync pricing with free promotional signal hosting.</h2>
-        <p>Start with copier access, expand slave capacity as needed, or host a signal-provider channel for free during the promotional period with any number of followers.</p>
+        <p>Start with a free 1 master + 1 slave copier plan, expand slave capacity as needed, or host a signal-provider channel for free during the promotional period with any number of followers.</p>
       </div>
       <div class="pricing-grid">
         <div class="card price-card">
           <div class="icon"><i class="fa-solid fa-computer"></i></div>
           <h3>Copier Starter</h3>
-          <div class="price-tag">£29 <small>/ month</small></div>
-          <p style="color:var(--muted)">1 desktop seat with 2 slave accounts.</p>
+          <div class="price-tag">FREE <small>/ month</small><span class="strike">£29</span></div>
+          <p style="color:var(--muted)">1 master account and 1 slave account included free.</p>
           <div class="discount-list">
-            <div class="discount-item">6 months: £156 <span>Save 10%</span></div>
-            <div class="discount-item">12 months: £278 <span>Save 20%</span></div>
+            <div class="discount-item">1 master + 1 slave: £0 <span>Free</span></div>
+            <div class="discount-item">Upgrade when you need more slave accounts</div>
           </div>
           <ul class="price-list">
             <li><i class="fa-solid fa-circle-check"></i><span>1 TCync desktop seat</span></li>
-            <li><i class="fa-solid fa-circle-check"></i><span>Up to 2 slave accounts</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>1 master account</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>1 slave account</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Encrypted credential storage</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Exclusions, MasterCtrl and Live Only</span></li>
           </ul>
-          <button class="btn btn-primary package-btn" data-package="Copier Starter" data-monthly="£29 per month" data-six="£156 for 6 months" data-year="£278 for 12 months">Select package</button>
+          <button class="btn btn-primary package-btn" data-package="Free Copier Starter" data-monthly="Free - 1 master and 1 slave" data-six="Free - 1 master and 1 slave" data-year="Free - 1 master and 1 slave">Select package</button>
         </div>
         <div class="card price-card">
           <div class="icon"><i class="fa-solid fa-user-plus"></i></div>
@@ -831,6 +834,22 @@
             <i class="fa-solid fa-paper-plane"></i>
             Get Free Trial
           </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="download">
+      <div class="download-panel">
+        <div class="kicker"><i class="fa-brands fa-windows"></i> Windows App</div>
+        <h2>Download TCync from Microsoft.</h2>
+        <p>
+          Install TCync for Windows directly from Microsoft Apps and start with the free 1 master + 1 slave copier plan.
+        </p>
+        <div class="cta-group" style="justify-content:center">
+          <a class="btn btn-primary" href="https://apps.microsoft.com/detail/9pfl4xv4vpzr?hl=en-GB&gl=GB" target="_blank" rel="noopener">
+            <i class="fa-brands fa-windows"></i>
+            Download for Windows
+          </a>
         </div>
       </div>
     </section>
